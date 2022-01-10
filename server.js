@@ -1,8 +1,8 @@
-import express from "express";
-import cors from "cors";
-// import posts from './routers/posts.js';
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import users from './routers/UsersRouter.js'
 
 dotenv.config();
 
@@ -16,9 +16,11 @@ app.use(cors());
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 
-app.get("/", (req, res) => {
-  res.json("Success");
-});
+// app.use('/', (req , res) => {
+//   res.json("Success")
+// });
+
+app.use('/api/user', users);
 
 mongoose
   .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -33,7 +35,6 @@ mongoose
   });
 
 
-  
 
 const blogSchema = new mongoose.Schema(
   {
