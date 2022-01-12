@@ -29,24 +29,6 @@ exports.logIn = async (req, res) => {
     });
 };
 
-// middelware này dùng check xem tài khoản đăng ký đã tồn tại hay chưa
-exports.checkRegister = async (req, res, next) => {
-  const { userName, password, email } = req.body;
-  UserModel.find({ $and: [{ userName, password, email }] })
-    .then((data) => {
-      if (data.length > 0) {
-        return res.status(409).json({
-          status: "409",
-          message: "Account information already exists.",
-        });
-      } else {
-        next();
-      }
-    })
-    .catch((err) => {
-      next();
-    });
-};
 
 exports.Register = async (req, res) => {
   const newUser = req.body;
@@ -59,6 +41,7 @@ exports.Register = async (req, res) => {
     })
     .catch((err) => {
       return res.status(500).json({
+        status:"500",
         message: "Register failed.",
       });
     });

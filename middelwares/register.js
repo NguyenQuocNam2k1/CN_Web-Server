@@ -1,6 +1,8 @@
 const { UserModel } = require("../models/UsersModel");
 
 
+
+// middelware này dùng check xem tài khoản đăng ký đã tồn tại hay chưa
 exports.checkRegister = async (req , res , next) => {
     const {userName , password , email} =  req.body;
     UserModel.find({$and: [{userName , password , email}]})
