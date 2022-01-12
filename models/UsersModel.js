@@ -10,10 +10,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    sex: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
