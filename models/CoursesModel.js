@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const courseListSchema = new mongoose.Schema(
     {
@@ -10,11 +10,11 @@ const courseListSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        Description: {
+        description: {
             type: String,
             required: true,
         },
-        View: {
+        view: {
             type: String,
             required: true,
         },
@@ -22,31 +22,32 @@ const courseListSchema = new mongoose.Schema(
     { timestamps: true, collection: "list-courses" }
 )
 
-export const courseListModel = mongoose.model("list-courses" , courseListSchema)
+exports.courseListModel = mongoose.model("list-courses" , courseListSchema)
 
 
 
 
-const courseDetailSchema = new mongoose.Schema(
-    {
-        idCourse: {
-            type: String,
-            required: true,
-        },
-        nameCourse: {
-            type: String,
-            required: true,
-        },
-        Description: {
-            type: String,
-            required: true,
-        },
-        View: {
-            type: String,
-            required: true,
-        },
-    },
-    { timestamps: true, collection: "list-courses-detail" }
-)
+// const courseDetailSchema = new mongoose.Schema(
+//     {
+//         idCourse: {
+//             type: String,
+//             required: true,
+//         },
+//         nameCourse: {
+//             type: String,
+//             required: true,
+//             ref:"list-courses"
+//         },
+//         Description: {
+//             type: String,
+//             required: true,
+//         },
+//         View: {
+//             type: String,
+//             required: true,
+//         },
+//     },
+//     { timestamps: true, collection: "list-courses-detail" }
+// )
 
-export const courseListModel = mongoose.model("list-courses" , courseDetailSchema)
+// exports.courseListModel = mongoose.model("list-courses" , courseDetailSchema)

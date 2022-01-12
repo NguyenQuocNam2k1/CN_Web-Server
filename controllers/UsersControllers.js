@@ -1,10 +1,9 @@
-import { UserModel } from "../models/UsersModel.js";
-import jwt from "jsonwebtoken";
+const { UserModel } = require("../models/UsersModel.js");
+const jwt = require("jsonwebtoken");
 
-export const logIn = async (req, res) => {
+exports.logIn = async (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
-  console.log(userName , password);
 
   UserModel.findOne({ userName: userName, password: password })
     .then((data) => {
@@ -31,7 +30,7 @@ export const logIn = async (req, res) => {
 };
 
 // middelware này dùng check xem tài khoản đăng ký đã tồn tại hay chưa
-export const checkRegister = async (req, res, next) => {
+exports.checkRegister = async (req, res, next) => {
   const { userName, password, email } = req.body;
   UserModel.find({ $and: [{ userName, password, email }] })
     .then((data) => {
@@ -49,7 +48,7 @@ export const checkRegister = async (req, res, next) => {
     });
 };
 
-export const Register = async (req, res) => {
+exports.Register = async (req, res) => {
   const newUser = req.body;
   UserModel.create(newUser)
     .then((data) => {

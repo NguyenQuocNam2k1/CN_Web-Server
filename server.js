@@ -1,8 +1,9 @@
-import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import users from './routers/UsersRouter.js'
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const users = require("./routers/UsersRouter.js");
+const course = require("./routers/CoursesRouter.js");
 
 dotenv.config();
 
@@ -16,9 +17,8 @@ app.use(cors());
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 
-
-app.use('/api/user', users);
-
+app.use("/api/user", users);
+app.use('/api/course', course)
 // app.use('/', (req , res) => {
 //   res.json("Success")
 // });
@@ -34,41 +34,3 @@ mongoose
   .catch((err) => {
     console.log("err", err);
   });
-
-
-
-const blogSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: String,
-      required: true,
-      default: "Anonymous",
-    },
-    attachment: String,
-    likeCount: {
-      type: Number,
-      default: 0,
-    },
-  },
-  { timestamps: true }
-);
-
-const myBlog = mongoose.model("post", blogSchema);
-
-app.get("/posts", async (req, res) => {
-  try {
-    const posts = await myBlog.find({});
-    console.log("Post", posts);
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});

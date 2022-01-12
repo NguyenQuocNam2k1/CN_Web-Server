@@ -1,6 +1,6 @@
-import express from 'express';
-import { logIn , Register , checkRegister } from '../controllers/UsersControllers.js';
-// import { checkRegister } from '../middelwares/register';
+const express = require('express');
+const { logIn , Register } = require('../controllers/UsersControllers.js');
+const { checkRegister } = require("../middelwares/register")
 
 const router = express.Router()
 
@@ -10,4 +10,4 @@ router.post('/register', checkRegister , Register)
 
 
 
-export default router;
+module.exports = router;

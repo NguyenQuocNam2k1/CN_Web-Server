@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose =  require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
@@ -22,4 +22,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true, collection: "users" }
 );
 
-export const UserModel = mongoose.model("users", userSchema);
+exports.UserModel = mongoose.model("users", userSchema);

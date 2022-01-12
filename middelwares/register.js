@@ -1,7 +1,7 @@
-import { UserModel } from "../models/UsersModel";
+const { UserModel } = require("../models/UsersModel");
 
 
-const checkRegister = async (req , res , next) => {
+exports.checkRegister = async (req , res , next) => {
     const {userName , password , email} =  req.body;
     UserModel.find({$and: [{userName , password , email}]})
     .then(data => {
@@ -20,4 +20,3 @@ const checkRegister = async (req , res , next) => {
     })
   }
 
-module.export = checkRegister;
