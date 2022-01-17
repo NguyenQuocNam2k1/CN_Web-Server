@@ -1,18 +1,48 @@
 const mongoose = require("mongoose");
 
-const Schema  = mongoose.Schema()
 
-const courseListSchema = new mongoose.Schema(
+const coursesSchema = new mongoose.Schema(
     {
-        nameCourse: {
+        idCourses: {
+            type: String,
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        }
+    },
+    { timestamps: true, collection: "courses" }
+)
+exports.coursesModel = mongoose.model("courses" , coursesSchema)
+
+
+
+
+const coursesListSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        idCourses: {
+            type: String,
+            required: true,
+            ref: "courses"
+        },
+        idCoursesList:{
+            type: String,
+            required: true
+        },
+        countUser: {
             type: String,
             required: true,
         },
         description: {
-            type: String,
-            required: true,
-        },
-        view: {
             type: String,
             required: true,
         },
@@ -23,28 +53,27 @@ const courseListSchema = new mongoose.Schema(
     },
     { timestamps: true, collection: "list-courses" }
 )
-
-exports.courseListModel = mongoose.model("list-courses" , courseListSchema)
-
+exports.coursesListModel = mongoose.model("list-courses" , coursesListSchema)
 
 
 
-const courseDetailSchema = new mongoose.Schema(
+
+const lessonSchema = new mongoose.Schema(
     {
-        nameCourse: {
+        idCoursesList: {
+            type: String,
+            required: true,
+            ref: "list-courses"
+        },
+        name: {
             type: String,
             required: true,
         },
-        title: {
-            type: String,
-            required: true,
-        },
-        linkVideo: {
+        video: {
             type: String,
             required: true,
         },
     },
-    { timestamps: true, collection: "list-courses-detail" }
+    { timestamps: true, collection: "lesson" }
 )
-
-exports.courseListModelDetail = mongoose.model("list-courses-detail" , courseDetailSchema)
+exports.lessonModel = mongoose.model("lesson" , lessonSchema)

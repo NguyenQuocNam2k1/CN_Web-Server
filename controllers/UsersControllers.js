@@ -1,33 +1,57 @@
 const { UserModel } = require("../models/UsersModel.js");
 const jwt = require("jsonwebtoken");
+var passport = require("passport");
 
-exports.logIn = async (req, res) => {
-  const userName = req.body.userName;
-  const password = req.body.password;
 
-  UserModel.findOne({ userName: userName, password: password })
-    .then((data) => {
-      if (data) {
-        let token = jwt.sign({ _id: data._id }, "CN_Web");
-        return res.status(200).json({
-          status: "200",
-          message: "Singin Success",
-          token: token,
-        });
-      } else {
-        return res.status(500).json({
-          status: "500",
-          message: "Account information does not exist.",
-        });
-      }
-    })
-    .catch((err) => {
+exports.logIn = async (req, res, next) => {
+  passport.authenticate("local", function (err, user) {
+    if (err) {
       return res.status(500).json({
         status: "500",
+        message: "Server Error",
+      });
+    }
+    if (!user) {
+      return res.status(401).json({
+        status: "401",
         message: "Account information does not exist.",
       });
+    }
+    let token = jwt.sign(user.id, "CN_Web");
+    return res.status(200).json({
+      status: "200",
+      message: "Singin Success",
+      token: token,
+      data: user
     });
+  })(req, res, next);
 };
+
+exports.logInFB = async (req , res , next) => {
+  passport.authenticate("facebook", function (err, user) {
+    if (err) {
+      return res.status(500).json({
+        status: "500",
+        message: "Server Error",
+      });
+    }
+    if (!user) {
+      return res.status(401).json({
+        status: "401",
+        message: "Account information does not exist.",
+      });
+    }
+
+    let token = jwt.sign(user.id, "CN_Web");
+    return res.status(200).json({
+      status: "200",
+      message: "Singin Success",
+      token: token,
+      data: user
+    });
+  })(req, res, next);
+}
+
 
 
 exports.Register = async (req, res) => {
@@ -41,7 +65,7 @@ exports.Register = async (req, res) => {
     })
     .catch((err) => {
       return res.status(500).json({
-        status:"500",
+        status: "500",
         message: "Register failed.",
       });
     });
