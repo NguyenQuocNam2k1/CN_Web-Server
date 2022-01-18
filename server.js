@@ -48,15 +48,16 @@ passport.deserializeUser(function (user, done) {
 });
 
 
+
 // Router
 app.get('/test',function(req,res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });
 app.use("/api/user", users);
 app.use('/api/course', course)
-// app.use('/', (req , res) => {
-//   res.json("Success")
-// });
+app.use('/', (req , res) => {
+  res.json("Success")
+});
 app.get("/", (req , res  , next) => {
   res.json("Home")
 })

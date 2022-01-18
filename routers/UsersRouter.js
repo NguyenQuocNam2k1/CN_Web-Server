@@ -9,6 +9,7 @@ const router = express.Router();
 // Router
 //Router login facbook
 router.get("/auth/facebook", passport.authenticate("facebook", { authType: "reauthenticate" }));
+
 router.get("/auth/facebook/callback", logInFB);
 router.get("/", (req, res, next) => {
   res.json(req.user);
