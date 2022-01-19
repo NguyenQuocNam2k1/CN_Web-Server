@@ -5,6 +5,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 // LocalStrategy passport
 passport.use(
   new LocalStrategy(function (username, password, done) {
+    console.log(username , password);
     UserModel.findOne(
       { $and: [{ userName: username, password }] },
       function (err, user) {
