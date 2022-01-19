@@ -65,7 +65,7 @@ exports.logInFB = async (req, res, next) => {
       message: "Singin Success",
       token: token,
       data: user,
-    });
+    }).redirect("http://localhost:3000")
   })(req, res, next);
 };
 

@@ -28,9 +28,20 @@ passport.use(
       profileFields: ["id", "displayName", "photos", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log("Success");
       console.log(accessToken);
       return cb(null, profile);
     }
   )
 );
+
+
+
+
+
+// Session passport
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
