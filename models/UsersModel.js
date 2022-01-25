@@ -2,7 +2,7 @@ const mongoose =  require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    userName: {
+    username: {
       type: String,
       require: true,
     },
@@ -12,14 +12,18 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
     },
-    role: {
+    image: {
       type: String,
-      required: true,
+      // required: true,
     }
   },
   { timestamps: true, collection: "users" }
 );
 
+
 exports.UserModel = mongoose.model("users", userSchema);
+
+
+
