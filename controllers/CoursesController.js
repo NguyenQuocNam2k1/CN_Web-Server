@@ -56,7 +56,6 @@ exports.addCoursesList = async (req, res) => {
   }
 };
 
-
 exports.addLesson = async (req, res) => {
   const newLesson = req.body;
   try {
@@ -91,8 +90,6 @@ exports.getCourses = async (req, res) => {
     })
     .then((data) => {
       return res.status(200).json({
-        status: "200",
-        message: "Success",
         dataCourser: data,
       });
     })
@@ -103,3 +100,18 @@ exports.getCourses = async (req, res) => {
       });
     });
 };
+
+
+exports.getAllCourseList = async (req , res) =>{
+  try {
+    const dataCourseList = await coursesListModel.find().populate("course").exec();
+    res.json({
+      dataCourseList
+    })
+  } catch (error) {
+    return res.json({
+      status: "500",
+      message:"Server Error"
+    })
+  }
+}

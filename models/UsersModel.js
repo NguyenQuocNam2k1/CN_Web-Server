@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    password: {
+    password_hash: {
       type: String,
       require: true,
     },
@@ -14,9 +14,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
-    image: {
+    role: {
       type: String,
-      // required: true,
+      required: true,
+    },
+    image:{
+      type:String,
+      required: true
     }
   },
   { timestamps: true, collection: "users" }

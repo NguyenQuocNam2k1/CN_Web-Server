@@ -29,7 +29,7 @@ const coursesListSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        idCourses: {
+        course: {
             type: String,
             required: true,
             ref: "courses"
@@ -60,7 +60,7 @@ exports.coursesListModel = mongoose.model("list-courses" , coursesListSchema)
 
 const lessonSchema = new mongoose.Schema(
     {
-        idCoursesList: {
+        listCourse: {
             type: String,
             required: true,
             ref: "list-courses"
