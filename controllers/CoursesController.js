@@ -102,10 +102,12 @@ exports.getCourses = async (req, res) => {
 };
 
 
+// Get DB Course
 exports.getAllCourseList = async (req , res) =>{
   try {
     const dataCourseList = await coursesListModel.find().populate("course").exec();
     res.json({
+      status: "200",
       dataCourseList
     })
   } catch (error) {
@@ -113,5 +115,29 @@ exports.getAllCourseList = async (req , res) =>{
       status: "500",
       message:"Server Error"
     })
+  }
+}
+
+exports.getAllLesson = async (req , res) => {
+  try {
+    const dataLessons = await lessonModel.find().populate('listCourse').exec();
+    res.json({
+      status: "200",
+      dataLessons
+    })
+  } catch (error) {
+    return res.json({
+      status: "500",
+      message:"Server Error"
+    })
+  }
+}
+
+exports.countUserView = async (req , res) => {
+  const idCourseList = req.body.id;
+  try {
+    const coutUser = await coursesListModel.findByIdAndUpdate({})
+  } catch (error) {
+    
   }
 }
