@@ -90,7 +90,7 @@ exports.getCourses = async (req, res) => {
     })
     .then((data) => {
       return res.status(200).json({
-        dataCourser: data,
+        data,
       });
     })
     .catch((err) => {
@@ -108,7 +108,7 @@ exports.getAllCourseList = async (req , res) =>{
     const dataCourseList = await coursesListModel.find().populate("course").exec();
     res.json({
       status: "200",
-      dataCourseList
+      data: dataCourseList
     })
   } catch (error) {
     return res.json({
@@ -123,7 +123,7 @@ exports.getAllLesson = async (req , res) => {
     const dataLessons = await lessonModel.find().populate('listCourse').exec();
     res.json({
       status: "200",
-      dataLessons
+      data: dataLessons
     })
   } catch (error) {
     return res.json({
@@ -133,11 +133,62 @@ exports.getAllLesson = async (req , res) => {
   }
 }
 
-exports.countUserView = async (req , res) => {
-  const idCourseList = req.body.id;
+exports.getLessonByCourse = async (req , res) => {
+  const {listCourse} = req.body;
   try {
-    const coutUser = await coursesListModel.findByIdAndUpdate({})
+    const data = await lessonModel.find({listCourse});
+    res.json({
+      status: "200",
+      data
+    })
   } catch (error) {
-    
+    return res.json({
+      status: "500",
+      message:"Server Error"
+    })
   }
 }
+
+exports.getCoursesByRouter = async (req , res) => {
+  const {typeCourse} = req.body;
+  if(!typeCourse){
+    return res.json({
+      status: "500",
+      message:"Not found typeCourse"
+    })
+  }
+  try {
+    const data = await coursesListModel.find({typeCourse});
+    res.json({
+      status: "200",
+      typeCourse,
+      data,
+    })
+  } catch (error) {
+    return res.json({
+      status: "500",
+      message:"Server Error"
+    })
+  }
+}
+
+
+// update DB
+exports.countUserView = async (req , res) => {
+  const idCourseList = req.body.id;
+  const dbUpdate = {countUser : req.body.countUser};
+  try {
+    const coutUser = await coursesListModel.findByIdAndUpdate(idCourseList , dbUpdate ,{new: true});
+    res.json({
+      status: "200",
+      message: "Success",
+      data:coutUser
+    })
+  } catch (error) {
+    return res.json({
+      status:"500",
+      message: "Server Error"
+    })
+  }
+}
+

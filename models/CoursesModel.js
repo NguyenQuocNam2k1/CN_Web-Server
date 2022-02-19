@@ -46,6 +46,14 @@ const coursesListSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        typeCourse: {
+            type: String,
+            required: true,
+        },
+        lorem:{
+            type: String,
+            required: true,
+        },
         image: {
             type: String,
             required: true
