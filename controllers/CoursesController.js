@@ -109,6 +109,7 @@ exports.getAllCourseList = async (req , res) =>{
     res.json({
       status: "200",
       data: dataCourseList
+      
     })
   } catch (error) {
     return res.json({
