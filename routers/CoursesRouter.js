@@ -14,7 +14,7 @@ const {
   checkCourse,
   checkCourseList,
   checkLesson,
-} = require("../middelwares/courses.js");
+} = require("../middlewares/courses.js");
 
 const router = express.Router();
 
