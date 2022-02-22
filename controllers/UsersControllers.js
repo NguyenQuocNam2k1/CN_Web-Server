@@ -51,3 +51,28 @@ exports.Register = async (req, res) => {
       });
     });
 };
+
+
+exports.RegisterFirebase = async (req, res) => {
+  var password_hash = bcrypt.hashSync(req.body.uid, 8);
+  const newUser = {
+    username: req.body.displayName,
+    email: req.body.email,
+    role: "0",
+    password_hash,
+    image: req.body.photoURL,
+  }
+  UserModel.create(newUser)
+    .then((data) => {
+      return res.status(200).json({
+        status: "200",
+        message: "Register success",
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "500",
+        message: "Sever error",
+      });
+    });
+};

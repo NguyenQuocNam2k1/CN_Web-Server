@@ -6,14 +6,8 @@ const users = require("./routers/UsersRouter.js");
 const course = require("./routers/CoursesRouter.js");
 const cookieParser = require("cookie-parser");
 
-
-
 dotenv.config();
 var app = express();
-
-require('./middlewares/session')(app);
-require("./config/passport/index")(app);
-
 
 
 const PORT = process.env.PORT || 5000;
@@ -30,10 +24,7 @@ app.use(cookieParser());
 // Router
 app.use("/api/user", users);
 app.use("/api/course", course);
-app.get("/" , (req , res , next) => {
-  console.log(req);
-  res.json("OKe");
-})
+
 
 mongoose
   .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })

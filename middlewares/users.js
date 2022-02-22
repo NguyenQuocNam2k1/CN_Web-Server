@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { logIn } = require("../controllers/UsersControllers");
 const { UserModel } = require("../models/UsersModel");
 
 
@@ -17,7 +18,31 @@ exports.checkRegister = async (req, res, next) => {
       }
     })
     .catch((err) => {
-      next();
+      return res.status(500).json({
+        status: "500",
+        message: "Server Error"
+      })
+    });
+};
+
+exports.checkRegisterFB = async (req, res, next) => {
+  const { email  } = req.body;
+  UserModel.find({ $and: [{email}] })
+    .then((data) => {
+      if (data.length > 0) {
+        return res.json({
+          status: "200",
+          message: "Account information already exists",
+        });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "500",
+        message: "Server Error"
+      })
     });
 };
 
