@@ -9,7 +9,7 @@ exports.checkRegister = async (req, res, next) => {
   UserModel.find({ $and: [{email} , {username}] })
     .then((data) => {
       if (data.length > 0) {
-        return res.status(409).json({
+        return res.json({
           status: "409",
           message: "Account information already exists.",
         });
@@ -26,13 +26,14 @@ exports.checkRegister = async (req, res, next) => {
 };
 
 exports.checkRegisterFB = async (req, res, next) => {
-  const { email  } = req.body;
+  const { email } = req.body;
   UserModel.find({ $and: [{email}] })
     .then((data) => {
       if (data.length > 0) {
         return res.json({
           status: "200",
           message: "Account information already exists",
+          data
         });
       } else {
         next();
