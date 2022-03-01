@@ -3,7 +3,7 @@ const {
   createCourses,
   addCoursesList,
   addLesson,
-  getCourses,
+  getCourseById,
   getAllCourseList,
   getAllLesson,
   getLessonByCourse,
@@ -21,14 +21,14 @@ const router = express.Router();
 //Add course
 router.post("/", checkCourse, createCourses);
 router.post("/addCourseList", checkCourseList, addCoursesList);
-router.post("/addLesson", checkLesson, addLesson);
-router.post("/getCouser", getCourses);
+router.post("/addLesson" , checkLesson, addLesson);
 
 // Get course
 router.get("/courseLists", getAllCourseList);
 router.get("/allLesson", getAllLesson);
 router.post("/lessonByIdCourse", getLessonByCourse);
 router.post("/courseByRoute", getCoursesByRouter);
+router.post("/getCouser", getCourseById);
 
 //Update db
 router.post("/count-view", countUserView);

@@ -18,7 +18,7 @@ const coursesSchema = new mongoose.Schema(
     },
     { timestamps: true, collection: "courses" }
 )
-exports.coursesModel = mongoose.model("courses" , coursesSchema)
+exports.coursesModel = mongoose.model("courses" , coursesSchema);
 
 
 
