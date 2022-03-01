@@ -3,6 +3,7 @@ const {
   coursesListModel,
   lessonModel,
 } = require("../models/CoursesModel");
+const {roomModel} = require("../models/CommentModel");
 
 exports.createCourses = async (req, res) => {
   const newCourses = req.body;
@@ -62,6 +63,12 @@ exports.addLesson = async (req, res) => {
     lessonModel
       .create(newLesson)
       .then((data) => {
+        try {
+          const res = roomModel.create({idRoom: data._id});
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
         return res.status(200).json({
           status: "200",
           message: "Add new video course success",
@@ -82,23 +89,21 @@ exports.addLesson = async (req, res) => {
   }
 };
 
-exports.getCourses = async (req, res) => {
-  const idCourse = req.body._id;
-  courseListModel
-    .findOne({
-      _id: idCourse,
+exports.getCourseById = async (req, res) => {
+  const _id = req.body._id;
+  try {
+    const course = await coursesListModel.find({_id}).exec();
+    res.json({
+      status: "200",
+      data: course
+      
     })
-    .then((data) => {
-      return res.status(200).json({
-        data,
-      });
+  } catch (error) {
+    return res.json({
+      status: "500",
+      message:"Server Error"
     })
-    .catch((err) => {
-      return res.status(500).json({
-        status: "500",
-        message: "Can't found courser",
-      });
-    });
+  }
 };
 
 
