@@ -3,8 +3,7 @@ const cors = require("cors");
 module.exports = (server) => {
   const io = require("socket.io")(server, {
     cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
+      origin: "*",
     },
   });
   // nhớ thêm cái cors này để tránh bị Exception nhé :D  ở đây mình làm nhanh nên cho phép tất cả các trang đều cors được.
