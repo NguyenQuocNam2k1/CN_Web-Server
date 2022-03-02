@@ -25,10 +25,12 @@ router.post("/addLesson" , checkLesson, addLesson);
 
 // Get course
 router.get("/courseLists", getAllCourseList);
-router.get("/allLesson", getAllLesson);
-router.post("/lessonByIdCourse", getLessonByCourse);
 router.post("/courseByRoute", getCoursesByRouter);
 router.post("/getCouser", getCourseById);
+
+router.post("/lessonByIdCourse", getLessonByCourse);
+router.get("/allLesson", getAllLesson);
+
 
 //Update db
 router.post("/count-view", countUserView);
