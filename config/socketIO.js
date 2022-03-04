@@ -39,10 +39,10 @@ module.exports = (server) => {
       );
     });
 
-    socket.on("update_count_like", (room, _id, countLike) => {
+    socket.on("update_count_like", (room , _id , data) => {
       commentModel.findByIdAndUpdate(
         _id,
-        { countLike },
+        {countLike: data},
         { new: true },
         function (err, res) {
           if (err) console.log(err);
@@ -91,13 +91,13 @@ module.exports = (server) => {
       });
     });
 
-    socket.on("update_count_like_cmt_res", (room, _id, idCmtResponse, countLike) => {
+    socket.on("update_count_like_cmt_res", (room, _id, idCmtResponse, data) => {
       commentModel.findOne({ _id }, function (err, response) {
         if (err) console.log(err);
         const newCmtResponse = response.cmtResponse;
         newCmtResponse.forEach((comment) => {
           if (comment.id === idCmtResponse) {
-            comment.countLike = countLike;
+            comment.countLike = data;
           }
         });
         commentModel.findByIdAndUpdate(

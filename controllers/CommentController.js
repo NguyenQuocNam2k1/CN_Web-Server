@@ -27,12 +27,3 @@ exports.createComment = async (req, res) => {
   }
 };
 
-
-// exports.updateComment = async (req , res) => {
-//     const _id = req.body.idComment;
-//     try {
-//         const 
-//     } catch (error) {
-        
-//     }
-// }

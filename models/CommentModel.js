@@ -31,11 +31,9 @@ const commentSchema = new mongoose.Schema(
         },
         cmtResponse:{
             type: Array
-        }
-        ,
+        },
         countLike:{
-            type: String,
-            required:true
+            type: Array,
         }
     },
     {timestamps: true , collection:"comment"}
