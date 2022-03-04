@@ -29,13 +29,10 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        cmtResponse:[
-            // {
-            //  idUser:{type: String , required: true},
-            //  content:{type: String , required: true},
-            //  countLike:{type : String}
-            // }
-        ],
+        cmtResponse:{
+            type: Array
+        }
+        ,
         countLike:{
             type: String,
             required:true
