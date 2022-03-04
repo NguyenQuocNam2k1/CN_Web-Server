@@ -12,12 +12,14 @@ exports.createComment = async (req, res) => {
         });
       })
       .catch((err) => {
+        console.log(err);
         return res.status(500).json({
           status: "500",
           message: "SERVER ERROR",
         });
       });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       status: "500",
       message: "SERVER ERROR",
@@ -26,11 +28,11 @@ exports.createComment = async (req, res) => {
 };
 
 
-exports.updateComment = async (req , res) => {
-    const _id = req.body.idComment;
-    try {
-        const 
-    } catch (error) {
+// exports.updateComment = async (req , res) => {
+//     const _id = req.body.idComment;
+//     try {
+//         const 
+//     } catch (error) {
         
-    }
-}
+//     }
+// }

@@ -18,9 +18,10 @@ const commentSchema = new mongoose.Schema(
     {
         idUser: {
             type: String,
-            required: true
+            required: true,
+            ref: "users"
         },
-        idLesson: {
+        idRoom: {
             type: String,
             required: true,
         },
@@ -28,8 +29,16 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        idCommentRes: {
-            type: String
+        cmtResponse:[
+            // {
+            //  idUser:{type: String , required: true},
+            //  content:{type: String , required: true},
+            //  countLike:{type : String}
+            // }
+        ],
+        countLike:{
+            type: String,
+            required:true
         }
     },
     {timestamps: true , collection:"comment"}
