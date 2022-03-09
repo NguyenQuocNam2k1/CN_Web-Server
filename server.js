@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const users = require("./routers/UsersRouter.js");
 const course = require("./routers/CoursesRouter.js");
+const comment = require("./routers/CommentRouter.js");
 const cookieParser = require("cookie-parser");
 const http = require("http");
+const { application } = require("express");
 
 dotenv.config();
 var app = express();
@@ -26,6 +28,7 @@ app.use(cookieParser());
 // Router
 app.use("/api/user", users);
 app.use("/api/course", course);
+app.use("/api/comment", comment);
 
 
 mongoose
