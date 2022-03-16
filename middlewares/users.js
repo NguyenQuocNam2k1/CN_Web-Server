@@ -6,7 +6,7 @@ const { UserModel } = require("../models/UsersModel");
 // middelware này dùng check xem tài khoản đăng ký đã tồn tại hay chưa
 exports.checkRegister = async (req, res, next) => {
   const { email , username  } = req.body;
-  UserModel.find({ $and: [{email} , {username}] })
+  UserModel.find({email})
     .then((data) => {
       if (data.length > 0) {
         return res.json({
@@ -27,7 +27,7 @@ exports.checkRegister = async (req, res, next) => {
 
 exports.checkRegisterFB = async (req, res, next) => {
   const { email } = req.body;
-  UserModel.find({ $and: [{email}] })
+  UserModel.find({email})
     .then((data) => {
       if (data.length > 0) {
         return res.json({
