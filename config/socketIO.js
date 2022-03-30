@@ -1,5 +1,3 @@
-const cors = require("cors");
-const moment = require("moment");
 const { commentModel } = require("../models/CommentModel");
 
 module.exports = (server) => {
@@ -20,8 +18,7 @@ module.exports = (server) => {
 
     //Thằng này dùng để lấy tất cả các comment theo khóa học
     socket.on("get_comment", (idRoom) => {
-      commentModel
-        .find({ idRoom })
+      commentModel.find({ idRoom })
         .then((cmt) => {
           socket.emit("receive_all_comment", cmt);
         })
@@ -34,7 +31,6 @@ module.exports = (server) => {
     socket.on("send_comment", (data) => {
       commentModel.create(data)
       .then(data => {
-        console.log(data);
         socket.emit("receive_comment", data);
         socket.in(data.idRoom).emit("receive_comment", data);
       })
@@ -70,6 +66,7 @@ module.exports = (server) => {
             })
             .catch((err) => {
               console.log(err);
+              return;
             });
         })
         .catch((err) => {
@@ -78,21 +75,26 @@ module.exports = (server) => {
     });
 
     // Tạo 1 cmt mà cmt này trả lời 1 cmt khác
-    socket.on("send_message_response", (room, _id, data) => {
-      commentModel.findOne({ _id }, function (error, response) {
-        if (error) console.log(error);
-        const newCmtResponse = response.cmtResponse;
-        newCmtResponse.push(data);
-        commentModel.findByIdAndUpdate(
-          _id,
-          { cmtResponse: newCmtResponse },
-          { new: true },
-          function (err, res) {
-            if (err) console.log(err);
-            socket.in(room).emit("receive_message_response", res);
-          }
-        );
-      });
+    socket.on("send_comment_response", (data) => {
+      commentModel.findByIdAndUpdate(
+        {_id: data._id},
+        {$push:{cmtResponse: data.cmtRes}},
+        { new: true }
+        )
+      .then(data => {
+        console.log(data);
+        commentModel.find({ idRoom: data.idRoom })
+        .then((cmt) => {
+          socket.emit("receive_all_comment", cmt);
+          socket.to(data.idRoom).emit("receive_all_comment", cmt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      })
     });
 
     // update content comment response
@@ -110,29 +112,37 @@ module.exports = (server) => {
           { cmtResponse: newCmtResponse },
           { new: true },
           function (err, res) {
-            if (err) console.log(err);
-            socket.in(room).emit("receive_message_response_updated", res);
+            if (err) return;
+            
           }
         );
       });
     });
 
-    socket.on("update_count_like_cmt_res", (room, _id, idCmtResponse, data) => {
-      commentModel.findOne({ _id }, function (err, response) {
+    socket.on("update_count_like_cmt_res", (data) => {
+      commentModel.findOne({_id:data.idCmt }, function (err, response) {
         if (err) console.log(err);
+        console.log(response);
         const newCmtResponse = response.cmtResponse;
-        newCmtResponse.forEach((comment) => {
-          if (comment.id === idCmtResponse) {
-            comment.countLike = data;
-          }
+        newCmtResponse.forEach((item) => {
+          if (item._id !== data.idCmtRes) return;
+          item.countLike = data.countLike;
         });
         commentModel.findByIdAndUpdate(
-          _id,
+          {_id: data.idCmt},
           { cmtResponse: newCmtResponse },
           { new: true },
           function (err, res) {
             if (err) console.log(err);
-            socket.in(room).emit("receive_count_like_cmtResponse_updated", res);
+            commentModel.find({ idRoom:data.room })
+            .then((cmt) => {
+              socket.emit("receive_all_comment", cmt);
+              socket.to(data.room).emit("receive_all_comment", cmt);
+            })
+            .catch((err) => {
+              console.log(err);
+              return;
+            });
           }
         );
       });
