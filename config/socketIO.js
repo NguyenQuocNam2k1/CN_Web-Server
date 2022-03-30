@@ -122,7 +122,6 @@ module.exports = (server) => {
     socket.on("update_count_like_cmt_res", (data) => {
       commentModel.findOne({_id:data.idCmt }, function (err, response) {
         if (err) console.log(err);
-        console.log(response);
         const newCmtResponse = response.cmtResponse;
         newCmtResponse.forEach((item) => {
           if (item._id !== data.idCmtRes) return;
