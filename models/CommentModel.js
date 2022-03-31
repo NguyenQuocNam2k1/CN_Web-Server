@@ -34,9 +34,21 @@ const commentSchema = new mongoose.Schema(
         },
         countLike:{
             type: Array,
+        },
+        username:{
+            type: String,
+            required: true,
+        },
+        time: {
+            type: String,
+            required: true,
+        },
+        avatar: {
+            type: String,
+            required: true,
         }
     },
-    {timestamps: true , collection:"comment"}
+    {collection:"comment"}
 );
 
 exports.commentModel = mongoose.model("comment" , commentSchema);

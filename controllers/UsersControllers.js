@@ -5,17 +5,17 @@ var bcrypt = require('bcryptjs');
 
 
 exports.logIn = async (req, res) => {
-  const username = req.body;
-  let user = await UserModel.findOne(username);
+  const {email} = req.body;
+  let user = await UserModel.findOne({email});
   if(!user) {
-    return res.status(401).json({
+    return res.status(200).json({
       status: "401",
       message: "Thông tin tài khoản không chính xác"
     })
   }
   const rs = await bcrypt.compareSync(req.body.password , user.password_hash);
   if(!rs) {
-    return res.status(401).json({
+    return res.status(200).json({
       status: "401",
       message: "Thông tin tài khoản không chính xác"
     })
