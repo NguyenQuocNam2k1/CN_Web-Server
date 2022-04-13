@@ -20,6 +20,14 @@ const userSchema = new mongoose.Schema(
     image:{
       type:String,
       required: true
+    },
+    course_studied:{
+      type: Array,
+      required:true
+    },
+    lesson_course:{
+      type: Array,
+      require: true
     }
   },
   { timestamps: true, collection: "users" }

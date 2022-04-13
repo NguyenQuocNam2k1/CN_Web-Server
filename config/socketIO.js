@@ -1,5 +1,5 @@
 const { commentModel } = require("../models/CommentModel");
-
+const {UserModel} =  require("../models/UsersModel");
 module.exports = (server) => {
    const io = require("socket.io")(server, {
       cors: {
@@ -24,9 +24,17 @@ module.exports = (server) => {
 
       socket.on("send_comment", (data) => {
          commentModel.create(data)
-            .then(data => {
-               socket.emit("receive_comment", data);
-               socket.in(data.idRoom).emit("receive_comment", data);
+            .then(res => {
+               commentModel
+                  .find({ idRoom: data.idRoom })
+                  .then((cmt) => {
+                     socket.emit("receive_comment", cmt);
+                     socket.to(data.idRoom).emit("receive_comment", cmt);
+                  })
+                  .catch((err) => {
+                     console.log(err);
+                     return;
+                  });
             })
             .catch(err => {
                console.log("ERROR: ", err)
@@ -212,6 +220,23 @@ module.exports = (server) => {
             .catch(err => {
                console.log(err);
             })
+      })
+
+      socket.on("update_lesson_course", data =>{
+         const {_id, newLessonCourse} = data;
+         UserModel.findOneAndUpdate(
+            {_id},
+            {lesson_course:newLessonCourse},
+            {new:true}
+         ).then(data =>{
+            UserModel.find({_id},function(err , user){
+               if(err) return err;
+               socket.emit("receive_user", user)
+            })
+         })
+         .catch(err =>{
+            console.log("ERROR: ",err);
+         })
       })
 
       socket.on("disconnect", () => {
