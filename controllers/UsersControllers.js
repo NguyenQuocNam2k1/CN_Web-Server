@@ -1,4 +1,5 @@
 const { UserModel } = require("../models/UsersModel.js");
+const { coursesListModel } = require("../models/CoursesModel.js");
 const jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
@@ -83,7 +84,7 @@ exports.RegisterFirebase = (req, res) => {
 };
 
 exports.addNewCourse = (req, res) => {
-  const { idCourse, _id, idLesson } = req.body;
+  const { idCourse, _id, idLesson, countUser } = req.body;
   UserModel.updateOne(
     { _id },
     {
@@ -97,15 +98,26 @@ exports.addNewCourse = (req, res) => {
     }
   )
     .then((data) => {
-      UserModel.find({ _id }, function (err, user) {
-        if (err) {
+      coursesListModel
+        .findOneAndUpdate({ idCoursesList: idCourse }, { countUser: countUser })
+        .then((data) => {
+          UserModel.find({ _id }, function (err, user) {
+            if (err)
+              return res.status(500).json({
+                status: "500",
+                message: "Sever error",
+              });
+            res.status(200).json({
+              data: user,
+            });
+          });
+        })
+        .catch((err) => {
           return res.status(500).json({
             status: "500",
             message: "Sever error",
           });
-        }
-        res.status(200).json(user);
-      });
+        });
     })
     .catch((err) => {
       return res.status(500).json({
@@ -113,4 +125,20 @@ exports.addNewCourse = (req, res) => {
         message: "Sever error",
       });
     });
+};
+
+exports.updateCourse = (req, res) => {
+  const { _id, newLessonCourse } = req.body;
+  UserModel.findByIdAndUpdate(
+    { _id },
+    { lesson_course: newLessonCourse },
+    { new: true },
+    function (err, data) {
+      if (err) return res.status(500).json("SERVER ERROR");
+      res.status(200).json({
+        statue: 200,
+        data,
+      });
+    }
+  );
 };

@@ -222,23 +222,6 @@ module.exports = (server) => {
             })
       })
 
-      socket.on("update_lesson_course", data =>{
-         const {_id, newLessonCourse} = data;
-         UserModel.findOneAndUpdate(
-            {_id},
-            {lesson_course:newLessonCourse},
-            {new:true}
-         ).then(data =>{
-            UserModel.find({_id},function(err , user){
-               if(err) return err;
-               socket.emit("receive_user", user)
-            })
-         })
-         .catch(err =>{
-            console.log("ERROR: ",err);
-         })
-      })
-
       socket.on("disconnect", () => {
          return;
       });
