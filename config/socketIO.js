@@ -117,7 +117,6 @@ module.exports = (server) => {
                      }
                      commentModel.find({ idRoom: data.room })
                         .then((res) => {
-                           console.log('lisCMt', res);
                            socket.emit("receive_all_comment", res);
                            socket.to(data.room).emit("receive_all_comment", res);
                         })
